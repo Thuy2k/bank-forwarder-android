@@ -12,9 +12,9 @@ object ForwardEngine {
         val parsed: ParsedTransfer
     )
 
-    private fun findTarget(body: String, targets: List<ShopTarget>): RoutedMessage? {
+    private fun findTarget(body: String, sender: String, source: String, targets: List<ShopTarget>): RoutedMessage? {
         for (target in targets) {
-            val parsed = BankMessageParser.parse(body, target.prefix)
+            val parsed = BankMessageParser.parse(body, target.prefix, sender = sender, source = source)
             if (parsed != null) {
                 return RoutedMessage(target, parsed)
             }
@@ -50,7 +50,7 @@ object ForwardEngine {
             return
         }
 
-        val routed = findTarget(body, targets) ?: run {
+        val routed = findTarget(body, sender, source, targets) ?: run {
             Log.d(TAG, "Skip forwarding: cannot parse transfer from $source")
             return
         }

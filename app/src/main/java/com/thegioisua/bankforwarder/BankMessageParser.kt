@@ -7,72 +7,88 @@ data class ParsedTransfer(
 )
 
 object BankMessageParser {
-    private val amountRegex = Regex("""(?<!\d)(\d{1,3}(?:[\.,\s]\d{3})+|\d{4,12})(?!\d)""")
-    private val amountHintRegex = Regex(
-        """(?i)(?:\+|nhan|nh\u1eadn|giao d\u1ecbch|gd|chuy\u1ec3n kho\u1ea3n|ck)\D{0,24}(\d{1,3}(?:[\.,\s]\d{3})+|\d{4,12})\D{0,8}(?:vnd|d|\u0111)?"""
+    private val genericPlusAmountRegex = Regex(
+        """(?i)\+\s*(\d{1,3}(?:[\.,\s]\d{3})+|\d{4,12})\s*(?:vnd|đ|d)"""
     )
 
-    private fun parseMbStyle(text: String, prefix: String): ParsedTransfer? {
-        // Example:
-        // TK 50xxx000 GD: +20,000VND ... ND: TGS169- Ma GD ACSP/93713148
-        val orderRegex = Regex("""(?i)ND\s*:\s*.*?${Regex.escape(prefix)}\s*(\d{2,10})""")
-        val amountRegexMb = Regex("""(?i)GD\s*:\s*\+?\s*(\d{1,3}(?:[\.,\s]\d{3})+|\d{4,12})\s*VND""")
+    private val genericHintedPlusAmountRegex = Regex(
+        """(?i)(?:số tiền|so tien|gd|giao dịch|giao dich|biến động|bien dong|nhận|nhan|chuyển khoản|chuyen khoan|ck)[^\n\r]{0,30}?\+\s*(\d{1,3}(?:[\.,\s]\d{3})+|\d{4,12})\s*(?:vnd|đ|d)?"""
+    )
 
-        val orderMatch = orderRegex.find(text) ?: return null
-        val amountMatch = amountRegexMb.find(text) ?: return null
-
-        val orderId = orderMatch.groupValues.getOrNull(1)?.trim().orEmpty()
-        val amount = amountMatch.groupValues.getOrNull(1)
-            ?.replace(Regex("[^0-9]"), "")
-            ?.toLongOrNull()
-            ?: return null
-
-        if (orderId.isBlank() || amount < 1000) return null
-
-        return ParsedTransfer(
-            orderId = orderId,
-            amount = amount,
-            normalizedMessage = "$prefix$orderId $amount"
-        )
+    // MB SMS template: TK... GD: +10,000VND ... ND: TGS186-...
+    private fun parseMbTemplate(text: String, prefix: String): ParsedTransfer? {
+        val orderId = extractOrderId(text, prefix) ?: return null
+        val amountMatch = Regex("""(?i)\bGD\s*:\s*\+\s*(\d{1,3}(?:[\.,\s]\d{3})+|\d{4,12})\s*VND\b""")
+            .find(text) ?: return null
+        val amount = parseAmount(amountMatch.groupValues[1]) ?: return null
+        if (!isValidIncomingAmount(amount)) return null
+        return ParsedTransfer(orderId = orderId, amount = amount, normalizedMessage = "$prefix$orderId $amount")
     }
 
-    fun parse(raw: String, prefix: String): ParsedTransfer? {
+    // BIDV notification template: "Số tiền GD: +10,000 VND" and only process positive transactions.
+    private fun parseBidvTemplate(text: String, prefix: String): ParsedTransfer? {
+        val orderId = extractOrderId(text, prefix) ?: return null
+        val m = Regex("""(?i)Số\s*tiền\s*GD\s*:\s*([+-])\s*(\d{1,3}(?:[\.,\s]\d{3})+|\d{4,12})\s*(?:VND|Đ|D)?""")
+            .find(text) ?: return null
+        val sign = m.groupValues[1]
+        if (sign != "+") return null
+        val amount = parseAmount(m.groupValues[2]) ?: return null
+        if (!isValidIncomingAmount(amount)) return null
+        return ParsedTransfer(orderId = orderId, amount = amount, normalizedMessage = "$prefix$orderId $amount")
+    }
+
+    // Generic fallback for other banks: prefer hinted "+amount" patterns, then plain "+...VND".
+    private fun parseGenericTemplate(text: String, prefix: String): ParsedTransfer? {
+        val orderId = extractOrderId(text, prefix) ?: return null
+
+        val hinted = genericHintedPlusAmountRegex.find(text)?.groupValues?.getOrNull(1)
+        val hintedAmount = hinted?.let { parseAmount(it) }
+        if (hintedAmount != null && isValidIncomingAmount(hintedAmount)) {
+            return ParsedTransfer(orderId = orderId, amount = hintedAmount, normalizedMessage = "$prefix$orderId $hintedAmount")
+        }
+
+        val generic = genericPlusAmountRegex.find(text)?.groupValues?.getOrNull(1)
+        val genericAmount = generic?.let { parseAmount(it) }
+        if (genericAmount != null && isValidIncomingAmount(genericAmount)) {
+            return ParsedTransfer(orderId = orderId, amount = genericAmount, normalizedMessage = "$prefix$orderId $genericAmount")
+        }
+
+        return null
+    }
+
+    private fun parseAmount(raw: String): Long? {
+        return raw.replace(Regex("[^0-9]"), "").toLongOrNull()
+    }
+
+    private fun isValidIncomingAmount(amount: Long): Boolean {
+        return amount in 1_000L..2_000_000_000L
+    }
+
+    private fun extractOrderId(text: String, prefix: String): String? {
+        val orderRegex = Regex("""(?i)\b${Regex.escape(prefix)}\s*(\d{2,10})\b""")
+        val orderId = orderRegex.find(text)?.groupValues?.getOrNull(1)?.trim().orEmpty()
+        return orderId.ifBlank { null }
+    }
+
+    fun parse(raw: String, prefix: String, sender: String = "", source: String = ""): ParsedTransfer? {
         val text = raw.trim()
         if (text.isEmpty()) return null
 
-        // Prefer strict MB SMS pattern when present to avoid capturing SD/Ma GD numbers.
-        if (text.contains("GD:", ignoreCase = true) && text.contains("ND:", ignoreCase = true)) {
-            parseMbStyle(text, prefix)?.let { return it }
+        // Only process messages that actually contain configured prefix (e.g. TGSxxx)
+        if (extractOrderId(text, prefix) == null) return null
+
+        val senderLower = sender.lowercase()
+        val sourceLower = source.lowercase()
+        val isMb = senderLower.contains("mb") || senderLower.contains("mbbank") || (sourceLower == "sms" && text.contains("ND:", true) && text.contains("GD:", true))
+        val isBidv = senderLower.contains("bidv") || senderLower.contains("smartbanking") || text.contains("Thông báo BIDV", true) || text.contains("Số tiền GD", true)
+
+        if (isMb) {
+            parseMbTemplate(text, prefix)?.let { return it }
+        }
+        if (isBidv) {
+            parseBidvTemplate(text, prefix)?.let { return it }
         }
 
-        val orderRegex = Regex("""(?i)${Regex.escape(prefix)}\s*(\d{2,10})""")
-        val orderMatch = orderRegex.find(text) ?: return null
-        val orderId = orderMatch.groupValues.getOrNull(1)?.trim().orEmpty()
-        if (orderId.isEmpty()) return null
-
-        val hintedAmounts = amountHintRegex.findAll(text)
-            .map { it.groupValues[1] }
-            .map { it.replace(Regex("[^0-9]"), "") }
-            .mapNotNull { it.toLongOrNull() }
-            .filter { it >= 1000 }
-            .toList()
-
-        val fallbackAmounts = amountRegex.findAll(text)
-            .map { it.groupValues[1] }
-            .map { it.replace(Regex("[^0-9]"), "") }
-            .mapNotNull { it.toLongOrNull() }
-            .filter { it in 1000..500_000_000 }
-            .toList()
-
-        val amounts = if (hintedAmounts.isNotEmpty()) hintedAmounts else fallbackAmounts
-
-        if (amounts.isEmpty()) return null
-        val amount = amounts.maxOrNull() ?: return null
-
-        return ParsedTransfer(
-            orderId = orderId,
-            amount = amount,
-            normalizedMessage = "$prefix$orderId $amount"
-        )
+        return parseGenericTemplate(text, prefix)
     }
 }
