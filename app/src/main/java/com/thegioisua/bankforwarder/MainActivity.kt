@@ -7,8 +7,11 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -94,7 +97,100 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSettings() {
-        etShopMappings = findViewById(R.id.etShopMappings)
+        val shopConfigMgr = ShopConfigManager(this)
+        shopConfigMgr.migrateFromLegacyFormat()
+        shopConfigMgr.initializeDefaultShopsIfEmpty()
+
+        // Shop list setup
+        val rvShops = findViewById<RecyclerView>(R.id.rvShops)
+        val adapter = ShopListAdapter(
+            shops = shopConfigMgr.getShops().toMutableList(),
+            onEdit = { shop ->
+                ShopConfigDialog(this, shop) { updated ->
+                    shopConfigMgr.updateShop(updated.id, updated.displayName, updated.prefix, updated.webhookUrl, updated.hmacSecret)
+                    refreshShopList(rvShops, shopConfigMgr)
+                    refreshDashboard()
+                }.show()
+            },
+            onDelete = { shop ->
+                AlertDialog.Builder(this)
+                    .setTitle("Xóa cửa hàng")
+                    .setMessage("Xóa ${shop.displayName}?")
+                    .setPositiveButton("Xóa") { _, _ ->
+                        shopConfigMgr.deleteShop(shop.id)
+                        refreshShopList(rvShops, shopConfigMgr)
+                        refreshDashboard()
+                    }
+                    .setNegativeButton("Hủy", null)
+                    .show()
+            }
+        )
+        rvShops.layoutManager = LinearLayoutManager(this)
+        rvShops.adapter = adapter
+
+        // Buttons
+        findViewById<Button>(R.id.btnAddShop).setOnClickListener {
+            ShopConfigDialog(this) { shop ->
+                shopConfigMgr.addShop(shop.displayName, shop.prefix, shop.webhookUrl, shop.hmacSecret)
+                refreshShopList(rvShops, shopConfigMgr)
+                refreshDashboard()
+            }.show()
+        }
+
+        findViewById<Button>(R.id.btnExport).setOnClickListener {
+            val dialog = AlertDialog.Builder(this)
+                .setTitle("Nhập mật khẩu để xuất")
+                .setView(EditText(this).apply { inputType = android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD })
+                .setPositiveButton("Xuất") { d, _ ->
+                    val pwd = (d as AlertDialog).findViewById<EditText>(0)?.text?.toString() ?: ""
+                    if (shopConfigMgr.verifyExportPassword(pwd)) {
+                        val json = shopConfigMgr.exportJSON()
+                        // Copy to clipboard
+                        val clipboard = getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                        val clip = android.content.ClipData.newPlainText("shops.json", json)
+                        clipboard.setPrimaryClip(clip)
+                        Toast.makeText(this, "✓ JSON đã copy to clipboard", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(this, "✗ Mật khẩu sai", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setNegativeButton("Hủy", null)
+                .create()
+            dialog.show()
+        }
+
+        findViewById<Button>(R.id.btnImport).setOnClickListener {
+            val editText = EditText(this).apply { inputType = android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE }
+            val dialog = AlertDialog.Builder(this)
+                .setTitle("Nhập JSON + mật khẩu")
+                .setView(editText)
+                .setPositiveButton("Nhập") { _, _ ->
+                    val input = editText.text.toString().trim()
+                    if (input.contains("|")) {
+                        val parts = input.split("|", limit = 2)
+                        val json = parts[0].trim()
+                        val pwd = parts.getOrNull(1)?.trim() ?: ""
+                        if (shopConfigMgr.verifyExportPassword(pwd)) {
+                            if (shopConfigMgr.importJSON(json)) {
+                                refreshShopList(rvShops, shopConfigMgr)
+                                refreshDashboard()
+                                Toast.makeText(this, "✓ Nhập thành công", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(this, "✗ JSON không hợp lệ", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            Toast.makeText(this, "✗ Mật khẩu sai", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "Format: JSON|PASSWORD", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setNegativeButton("Hủy", null)
+                .create()
+            dialog.show()
+        }
+
+        // Other settings (legacy)
         etSenderFilter = findViewById(R.id.etSenderFilter)
         etPackageFilter = findViewById(R.id.etPackageFilter)
         etBotToken = findViewById(R.id.etBotToken)
@@ -102,8 +198,8 @@ class MainActivity : AppCompatActivity() {
         etPrefix = findViewById(R.id.etPrefix)
         switchSms = findViewById(R.id.switchSms)
         switchNoti = findViewById(R.id.switchNoti)
+        val switchBackgroundMode = findViewById<SwitchMaterial>(R.id.switchBackgroundMode)
 
-        etShopMappings.setText(prefs.shopMappingsRaw)
         etSenderFilter.setText(prefs.smsSenderFilter)
         etPackageFilter.setText(prefs.bankPackageFilter)
         etBotToken.setText(prefs.botToken)
@@ -111,28 +207,28 @@ class MainActivity : AppCompatActivity() {
         etPrefix.setText(prefs.txPrefix)
         switchSms.isChecked = prefs.enabledSms
         switchNoti.isChecked = prefs.enabledNotification
+        switchBackgroundMode.isChecked = prefs.backgroundModeEnabled
 
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btnSave).setOnClickListener {
-            prefs.shopMappingsRaw = etShopMappings.text.toString()
-            prefs.smsSenderFilter = etSenderFilter.text.toString()
-            prefs.bankPackageFilter = etPackageFilter.text.toString()
-            prefs.botToken = etBotToken.text.toString()
-            prefs.chatId = etChatId.text.toString()
-            prefs.txPrefix = etPrefix.text.toString()
-            prefs.enabledSms = switchSms.isChecked
-            prefs.enabledNotification = switchNoti.isChecked
-            Toast.makeText(this, "✓ Đã lưu cấu hình", Toast.LENGTH_SHORT).show()
-            refreshDashboard()
+            try {
+                prefs.smsSenderFilter = etSenderFilter.text.toString()
+                prefs.bankPackageFilter = etPackageFilter.text.toString()
+                prefs.botToken = etBotToken.text.toString()
+                prefs.chatId = etChatId.text.toString()
+                prefs.txPrefix = etPrefix.text.toString()
+                prefs.enabledSms = switchSms.isChecked
+                prefs.enabledNotification = switchNoti.isChecked
+                prefs.backgroundModeEnabled = switchBackgroundMode.isChecked
+                Toast.makeText(this, "✓ Đã lưu cấu hình thành công", Toast.LENGTH_SHORT).show()
+                refreshDashboard()
+            } catch (e: Exception) {
+                Toast.makeText(this, "✗ Lưu cấu hình thất bại: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
 
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btnTestSend).setOnClickListener {
-            val prefix = prefs.getShopTargets().firstOrNull()?.prefix ?: prefs.txPrefix.ifBlank { "TGS" }
-            ForwardEngine.handleIncoming(
-                context = this,
-                source = "manual",
-                sender = "TEST",
-                body = "${prefix}159 10000"
-            )
+            val prefix = shopConfigMgr.getShops().firstOrNull()?.prefix ?: prefs.txPrefix.ifBlank { "TGS" }
+            ForwardEngine.handleIncoming(context = this, source = "manual", sender = "TEST", body = "${prefix}159 10000")
             Toast.makeText(this, "Đã gửi test: ${prefix}159 10000", Toast.LENGTH_SHORT).show()
         }
 
@@ -153,6 +249,10 @@ class MainActivity : AppCompatActivity() {
             intent.data = Uri.parse("package:$packageName")
             startActivity(intent)
         }
+    }
+
+    private fun refreshShopList(rvShops: RecyclerView, shopConfigMgr: ShopConfigManager) {
+        (rvShops.adapter as? ShopListAdapter)?.updateList(shopConfigMgr.getShops())
     }
 
     private fun setupBottomNav() {

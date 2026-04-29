@@ -3032,6 +3032,7 @@ drawable ic_nav_home
 drawable ic_nav_settings
 drawable ic_search_black_24
 drawable indeterminate_static
+drawable logotgs
 drawable m3_avd_hide_password
 drawable m3_avd_show_password
 drawable m3_bottom_sheet_drag_handle
@@ -3206,7 +3207,10 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id btnAddShop
 id btnBatteryOpt
+id btnExport
+id btnImport
 id btnNotificationAccess
 id btnSave
 id btnSmsPermission
@@ -3300,7 +3304,6 @@ id etChatId
 id etPackageFilter
 id etPrefix
 id etSenderFilter
-id etShopMappings
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
@@ -3492,6 +3495,7 @@ id right_icon
 id right_side
 id rounded
 id row_index_key
+id rvShops
 id rvTransactions
 id save_non_transition_alpha
 id save_overlay_view
@@ -3555,6 +3559,7 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
+id switchBackgroundMode
 id switchNoti
 id switchSms
 id tabMode

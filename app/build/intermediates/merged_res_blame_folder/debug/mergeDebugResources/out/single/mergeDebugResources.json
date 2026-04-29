@@ -28,15 +28,19 @@
         "source": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-main-38:\\layout\\activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-debug-36:\\drawable_ic_nav_settings.xml.flat",
-        "source": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-main-38:\\drawable\\ic_nav_settings.xml"
-    },
-    {
         "merged": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-debug-36:\\drawable_ic_nav_home.xml.flat",
         "source": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-main-38:\\drawable\\ic_nav_home.xml"
     },
     {
+        "merged": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-debug-36:\\drawable_ic_nav_settings.xml.flat",
+        "source": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-main-38:\\drawable\\ic_nav_settings.xml"
+    },
+    {
         "merged": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-debug-36:\\drawable_bg_badge_active.xml.flat",
         "source": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-main-38:\\drawable\\bg_badge_active.xml"
+    },
+    {
+        "merged": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-debug-36:\\drawable_logotgs.png.flat",
+        "source": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-main-38:\\drawable\\logotgs.png"
     }
 ]

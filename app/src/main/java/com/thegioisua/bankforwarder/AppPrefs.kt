@@ -37,6 +37,10 @@ class AppPrefs(context: Context) {
         get() = sp.getBoolean("enabled_noti", false)
         set(value) = sp.edit().putBoolean("enabled_noti", value).apply()
 
+    var backgroundModeEnabled: Boolean
+        get() = sp.getBoolean("background_mode", false)
+        set(value) = sp.edit().putBoolean("background_mode", value).apply()
+
     var smsSenderFilter: String
         get() = sp.getString("sms_sender_filter", "")?.trim().orEmpty()
         set(value) = sp.edit().putString("sms_sender_filter", value.trim()).apply()

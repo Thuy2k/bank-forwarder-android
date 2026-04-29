@@ -24,16 +24,25 @@ object ForwardEngine {
 
     fun handleIncoming(context: Context, source: String, sender: String, body: String) {
         val prefs = AppPrefs(context)
-        val mappedTargets = prefs.getShopTargets()
-        val targets = if (mappedTargets.isNotEmpty()) {
-            mappedTargets
+        val shopConfigMgr = ShopConfigManager(context)
+
+        // Try new shop config manager first
+        val shops = shopConfigMgr.getShops()
+        val targets = if (shops.isNotEmpty()) {
+            shops.map { ShopTarget(prefix = it.prefix, botToken = "", chatId = "", webhookUrl = it.webhookUrl, hmacSecret = it.hmacSecret) }
         } else {
-            val token = prefs.botToken
-            val chatId = prefs.chatId
-            val prefix = prefs.txPrefix.ifBlank { "TGS" }.uppercase()
-            if (token.isBlank() || chatId.isBlank()) emptyList() else listOf(
-                ShopTarget(prefix = prefix, botToken = token, chatId = chatId, webhookUrl = "")
-            )
+            // Fallback: legacy AppPrefs format
+            val mappedTargets = prefs.getShopTargets()
+            if (mappedTargets.isNotEmpty()) {
+                mappedTargets
+            } else {
+                val token = prefs.botToken
+                val chatId = prefs.chatId
+                val prefix = prefs.txPrefix.ifBlank { "TGS" }.uppercase()
+                if (token.isBlank() || chatId.isBlank()) emptyList() else listOf(
+                    ShopTarget(prefix = prefix, botToken = token, chatId = chatId, webhookUrl = "")
+                )
+            }
         }
 
         if (targets.isEmpty()) {

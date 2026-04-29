@@ -15,8 +15,12 @@ drawable bg_badge_active
 drawable bg_circle_bank
 drawable ic_nav_home
 drawable ic_nav_settings
+drawable logotgs
 id bottomNav
+id btnAddShop
 id btnBatteryOpt
+id btnExport
+id btnImport
 id btnNotificationAccess
 id btnSave
 id btnSmsPermission
@@ -28,11 +32,12 @@ id etChatId
 id etPackageFilter
 id etPrefix
 id etSenderFilter
-id etShopMappings
 id nav_dashboard
 id nav_settings
+id rvShops
 id rvTransactions
 id settingsContainer
+id switchBackgroundMode
 id switchNoti
 id switchSms
 id tvAmount
