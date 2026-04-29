@@ -56,7 +56,7 @@ object ForwardEngine {
             var status = "failed"
             try {
                 if (routed.target.webhookUrl.isNotBlank()) {
-                    WebhookForwarder.forward(routed.target.webhookUrl, routed.parsed.normalizedMessage)
+                    WebhookForwarder.forward(routed.target.webhookUrl, routed.parsed.normalizedMessage, routed.target.hmacSecret)
                 } else {
                     TelegramSender.sendMessage(
                         routed.target.botToken,

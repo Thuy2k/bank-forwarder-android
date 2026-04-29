@@ -6,7 +6,8 @@ data class ShopTarget(
     val prefix: String,
     val botToken: String,
     val chatId: String,
-    val webhookUrl: String
+    val webhookUrl: String,
+    val hmacSecret: String = ""
 )
 
 class AppPrefs(context: Context) {
@@ -58,13 +59,15 @@ class AppPrefs(context: Context) {
                 val prefix = parts[0].uppercase()
                 if (prefix.isBlank()) return@mapNotNull null
 
-                // New mode: PREFIX|WEBHOOK_URL
-                if (parts.size == 2 && parts[1].startsWith("http", ignoreCase = true)) {
+                // New mode: PREFIX|WEBHOOK_URL|HMAC_SECRET (hmac optional)
+                if (parts.size >= 2 && parts[1].startsWith("http", ignoreCase = true)) {
+                    val hmac = if (parts.size >= 3) parts[2] else ""
                     return@mapNotNull ShopTarget(
                         prefix = prefix,
                         botToken = "",
                         chatId = "",
-                        webhookUrl = parts[1]
+                        webhookUrl = parts[1],
+                        hmacSecret = hmac
                     )
                 }
 
@@ -77,7 +80,8 @@ class AppPrefs(context: Context) {
                         prefix = prefix,
                         botToken = token,
                         chatId = chatId,
-                        webhookUrl = ""
+                        webhookUrl = "",
+                        hmacSecret = ""
                     )
                 }
 

@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Multi-shop mappings"
-                    app:helperText="PREFIX|WEBHOOK_URL — mỗi shop một dòng"
+                    app:helperText="PREFIX|WEBHOOK_URL|HMAC_SECRET — mỗi shop một dòng (HMAC_SECRET tùy chọn)"
                     app:helperTextEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
