@@ -94,4 +94,59 @@ class AppPrefs(context: Context) {
         }
         return duplicated
     }
+
+    fun saveTransaction(record: TransactionRecord) {
+        val list = getTransactions().toMutableList()
+        list.add(0, record)
+        if (list.size > 200) list.subList(200, list.size).clear()
+        val arr = org.json.JSONArray()
+        list.forEach { r ->
+            val obj = org.json.JSONObject()
+            obj.put("timeMs", r.timeMs)
+            obj.put("orderId", r.orderId)
+            obj.put("amount", r.amount)
+            obj.put("prefix", r.prefix)
+            obj.put("bank", r.bank)
+            obj.put("source", r.source)
+            obj.put("status", r.status)
+            arr.put(obj)
+        }
+        sp.edit().putString("transactions", arr.toString()).apply()
+    }
+
+    fun getTransactions(): List<TransactionRecord> {
+        val raw = sp.getString("transactions", "[]") ?: "[]"
+        return try {
+            val arr = org.json.JSONArray(raw)
+            (0 until arr.length()).map { i ->
+                val obj = arr.getJSONObject(i)
+                TransactionRecord(
+                    timeMs = obj.getLong("timeMs"),
+                    orderId = obj.getString("orderId"),
+                    amount = obj.getLong("amount"),
+                    prefix = obj.getString("prefix"),
+                    bank = obj.getString("bank"),
+                    source = obj.getString("source"),
+                    status = obj.getString("status")
+                )
+            }
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    fun getTodayStats(): Pair<Int, Long> {
+        val cal = java.util.Calendar.getInstance()
+        cal.set(java.util.Calendar.HOUR_OF_DAY, 0)
+        cal.set(java.util.Calendar.MINUTE, 0)
+        cal.set(java.util.Calendar.SECOND, 0)
+        cal.set(java.util.Calendar.MILLISECOND, 0)
+        val startOfDay = cal.timeInMillis
+        val today = getTransactions().filter { it.timeMs >= startOfDay && it.status == "success" }
+        return Pair(today.size, today.sumOf { it.amount })
+    }
+
+    fun clearTransactions() {
+        sp.edit().remove("transactions").apply()
+    }
 }

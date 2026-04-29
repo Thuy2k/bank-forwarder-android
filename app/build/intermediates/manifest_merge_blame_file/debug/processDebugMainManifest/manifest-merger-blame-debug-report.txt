@@ -44,8 +44,8 @@
 27-->C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:11:9-41
 28        android:supportsRtl="true"
 28-->C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:12:9-35
-29        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" >
-29-->C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:13:9-77
+29        android:theme="@style/Theme.BankForwarder" >
+29-->C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:13:9-51
 30        <activity
 30-->C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:15:9-22:20
 31            android:name="com.thegioisua.bankforwarder.MainActivity"

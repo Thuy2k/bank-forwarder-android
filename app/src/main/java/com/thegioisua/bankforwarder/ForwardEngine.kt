@@ -53,6 +53,7 @@ object ForwardEngine {
         }
 
         thread {
+            var status = "failed"
             try {
                 if (routed.target.webhookUrl.isNotBlank()) {
                     WebhookForwarder.forward(routed.target.webhookUrl, routed.parsed.normalizedMessage)
@@ -63,9 +64,22 @@ object ForwardEngine {
                         routed.parsed.normalizedMessage
                     )
                 }
+                status = "success"
                 Log.i(TAG, "Forwarded from $source: ${routed.parsed.normalizedMessage}")
             } catch (e: Exception) {
                 Log.e(TAG, "Forward failed: ${e.message}", e)
+            } finally {
+                prefs.saveTransaction(
+                    TransactionRecord(
+                        timeMs = System.currentTimeMillis(),
+                        orderId = routed.parsed.orderId,
+                        amount = routed.parsed.amount,
+                        prefix = routed.target.prefix,
+                        bank = sender,
+                        source = source,
+                        status = status
+                    )
+                )
             }
         }
     }

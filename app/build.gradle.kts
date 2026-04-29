@@ -44,4 +44,5 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 }
