@@ -1,0 +1,18 @@
+R_DEF: Internal format may change without notice
+local
+id btnDisableBatteryOpt
+id btnOpenNotiAccess
+id btnOpenSmsPermission
+id btnSave
+id btnTestSend
+id cbNotification
+id cbSms
+id etBotToken
+id etChatId
+id etPackageFilter
+id etPrefix
+id etShopMappings
+id etSmsSenderFilter
+id tvStatus
+layout activity_main
+string app_name

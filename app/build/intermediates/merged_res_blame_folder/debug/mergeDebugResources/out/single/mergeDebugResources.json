@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.thegioisua.bankforwarder.app-debug-35:/layout_activity_main.xml.flat",
+        "source": "com.thegioisua.bankforwarder.app-main-37:/layout/activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-debug-35:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\Admin\\.gradle\\daemon\\9.0.0\\com.thegioisua.bankforwarder.app-main-37:\\layout\\activity_main.xml"
+    }
+]
