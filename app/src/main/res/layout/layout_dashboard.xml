@@ -222,6 +222,25 @@
 
         </LinearLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:hint="Tìm shop ở trang chủ"
+                app:helperText="Nhập tên shop hoặc prefix để lọc giao dịch"
+                app:helperTextEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDashboardShopSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
         <!-- Empty state -->
         <TextView
             android:id="@+id/tvEmptyState"

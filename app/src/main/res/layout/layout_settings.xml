@@ -64,6 +64,32 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:hint="Tìm kiếm shop"
+                    app:helperText="Nhập tên shop hoặc prefix (VD: Nam Định, TGS...)"
+                    app:helperTextEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etShopSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tvShopListInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Hiển thị 0/0 shop"
+                    android:textColor="#757575"
+                    android:textSize="12sp" />
+
                 <!-- Shop List RecyclerView -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvShops"
@@ -158,20 +184,6 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="Đọc Notification app ngân hàng" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#F0F0F0"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp" />
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchBackgroundMode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Chế độ chạy ngầm (Background)" />
 
             </LinearLayout>
 
@@ -377,9 +389,18 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="Tắt tối ưu pin (giữ app hoạt động)"
+            android:text="Xin quyền chạy ngầm (tắt tối ưu pin)"
             android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/tvBatteryOptStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="32dp"
+            android:text="Trạng thái pin: Chưa kiểm tra"
+            android:textColor="#757575"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

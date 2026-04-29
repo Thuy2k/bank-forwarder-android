@@ -3301,9 +3301,11 @@ id enterAlwaysCollapsed
 id escape
 id etBotToken
 id etChatId
+id etDashboardShopSearch
 id etPackageFilter
 id etPrefix
 id etSenderFilter
+id etShopSearch
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
@@ -3559,7 +3561,6 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
-id switchBackgroundMode
 id switchNoti
 id switchSms
 id tabMode
@@ -3614,10 +3615,12 @@ id triangle
 id tvAmount
 id tvBankCircle
 id tvBankInfo
+id tvBatteryOptStatus
 id tvClearLog
 id tvEmptyState
 id tvOrderId
 id tvShopCount
+id tvShopListInfo
 id tvStatus
 id tvStatusBadge
 id tvTime
