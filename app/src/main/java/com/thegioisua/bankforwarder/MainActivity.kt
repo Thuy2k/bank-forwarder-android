@@ -183,11 +183,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btnExport).setOnClickListener {
+            val passwordInput = EditText(this).apply {
+                inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
             val dialog = AlertDialog.Builder(this)
                 .setTitle("Nhập mật khẩu để xuất")
-                .setView(EditText(this).apply { inputType = android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD })
-                .setPositiveButton("Xuất") { d, _ ->
-                    val pwd = (d as AlertDialog).findViewById<EditText>(0)?.text?.toString() ?: ""
+                .setView(passwordInput)
+                .setPositiveButton("Xuất") { _, _ ->
+                    val pwd = passwordInput.text?.toString().orEmpty()
                     if (shopConfigMgr.verifyExportPassword(pwd)) {
                         val json = shopConfigMgr.exportJSON()
                         // Copy to clipboard
