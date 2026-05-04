@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:2:1-47:12
-INJECTED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:2:1-47:12
-INJECTED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:2:1-47:12
-INJECTED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:2:1-47:12
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:2:1-66:12
+INJECTED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:2:1-66:12
+INJECTED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:2:1-66:12
+INJECTED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:2:1-66:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Admin\.gradle\caches\9.0.0\transforms\24bd5cc203521d68f6f3d3cb6c1e7388\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Admin\.gradle\caches\9.0.0\transforms\5c32f15271083e6f47ec898cc5874a1e\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.7.0] C:\Users\Admin\.gradle\caches\9.0.0\transforms\429a9523ea1b497114f85d58370b22a0\transformed\appcompat-resources-1.7.0\AndroidManifest.xml:2:1-7:12
@@ -74,9 +74,21 @@ uses-permission#android.permission.POST_NOTIFICATIONS
 ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:7:5-77
 	android:name
 		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:7:22-74
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:8:5-81
+	android:name
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:8:22-78
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:9:5-77
+	android:name
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:9:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_DATA_SYNC
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:10:5-87
+	android:name
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:10:22-84
 application
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:9:5-45:19
-INJECTED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:9:5-45:19
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:12:5-64:19
+INJECTED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:12:5-64:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Admin\.gradle\caches\9.0.0\transforms\24bd5cc203521d68f6f3d3cb6c1e7388\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Admin\.gradle\caches\9.0.0\transforms\24bd5cc203521d68f6f3d3cb6c1e7388\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Admin\.gradle\caches\9.0.0\transforms\5c32f15271083e6f47ec898cc5874a1e\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -98,65 +110,93 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Admin\.gradle\cach
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] C:\Users\Admin\.gradle\caches\9.0.0\transforms\8c97d544f9fbff002fa0e9b4e2fe7242\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:13:9-35
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:16:9-35
 	android:label
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:12:9-41
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:15:9-41
 	android:icon
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:11:9-41
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:14:9-41
 	android:allowBackup
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:10:9-35
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:13:9-35
 	android:theme
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:14:9-51
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:17:9-51
 activity#com.thegioisua.bankforwarder.MainActivity
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:16:9-23:20
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:19:9-26:20
 	android:exported
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:18:13-36
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:21:13-36
 	android:name
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:17:13-41
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:20:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:19:13-22:29
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:22:13-25:29
 action#android.intent.action.MAIN
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:20:17-69
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:23:17-69
 	android:name
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:20:25-66
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:23:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:21:17-77
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:24:17-77
 	android:name
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:21:27-74
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:24:27-74
 service#com.thegioisua.bankforwarder.BankNotificationListenerService
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:25:9-33:19
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:28:9-36:19
 	android:enabled
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:27:13-35
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:30:13-35
 	android:exported
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:28:13-37
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:31:13-37
 	android:permission
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:29:13-87
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:32:13-87
 	android:name
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:26:13-60
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:29:13-60
 intent-filter#action:name:android.service.notification.NotificationListenerService
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:30:13-32:29
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:33:13-35:29
 action#android.service.notification.NotificationListenerService
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:31:17-99
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:34:17-99
 	android:name
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:31:25-96
-receiver#com.thegioisua.bankforwarder.BankSmsReceiver
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:35:9-43:20
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:34:25-96
+service#com.thegioisua.bankforwarder.KeepAliveService
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:38:9-42:56
 	android:enabled
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:37:13-35
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:40:13-35
 	android:exported
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:38:13-36
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:41:13-37
+	android:foregroundServiceType
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:42:13-53
+	android:name
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:39:13-45
+receiver#com.thegioisua.bankforwarder.BankSmsReceiver
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:44:9-52:20
+	android:enabled
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:46:13-35
+	android:exported
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:47:13-36
 	android:permission
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:39:13-66
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:48:13-66
 	android:name
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:36:13-44
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:45:13-44
 intent-filter#action:name:android.provider.Telephony.SMS_RECEIVED
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:40:13-42:29
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:49:13-51:29
 	android:priority
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:40:28-51
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:49:28-51
 action#android.provider.Telephony.SMS_RECEIVED
-ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:41:17-82
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:50:17-82
 	android:name
-		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:41:25-79
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:50:25-79
+receiver#com.thegioisua.bankforwarder.AppStartupReceiver
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:54:9-62:20
+	android:enabled
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:56:13-35
+	android:exported
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:57:13-36
+	android:name
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:55:13-47
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.MY_PACKAGE_REPLACED
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:58:13-61:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:59:17-79
+	android:name
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:59:25-76
+action#android.intent.action.MY_PACKAGE_REPLACED
+ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:60:17-84
+	android:name
+		ADDED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml:60:25-81
 uses-sdk
 INJECTED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\xampp\htdocs\du_an_pos_demo\bank-forwarder-android\app\src\main\AndroidManifest.xml

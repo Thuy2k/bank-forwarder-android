@@ -63,6 +63,12 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         refreshDashboard()
         updateBatteryOptimizationStatus(findViewById(R.id.tvBatteryOptStatus))
+        if (prefs.enabledNotification) {
+            NotificationListenerKeeper.requestRebind(this)
+            KeepAliveService.start(this)
+        } else {
+            KeepAliveService.stop(this)
+        }
     }
 
     private fun setupDashboard() {
@@ -266,6 +272,12 @@ class MainActivity : AppCompatActivity() {
                 prefs.txPrefix = etPrefix.text.toString()
                 prefs.enabledSms = switchSms.isChecked
                 prefs.enabledNotification = switchNoti.isChecked
+                if (switchNoti.isChecked) {
+                    NotificationListenerKeeper.requestRebind(this)
+                    KeepAliveService.start(this)
+                } else {
+                    KeepAliveService.stop(this)
+                }
                 Toast.makeText(this, "✓ Đã lưu cấu hình thành công", Toast.LENGTH_SHORT).show()
                 refreshDashboard()
             } catch (e: Exception) {

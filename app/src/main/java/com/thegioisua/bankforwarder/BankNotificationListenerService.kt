@@ -57,4 +57,15 @@ class BankNotificationListenerService : NotificationListenerService() {
         Log.d("BankNotiService", "Notification from $pkg: $content")
         ForwardEngine.handleIncoming(this, "notification", pkg, content)
     }
+
+    override fun onListenerConnected() {
+        super.onListenerConnected()
+        Log.i("BankNotiService", "Notification listener connected")
+    }
+
+    override fun onListenerDisconnected() {
+        super.onListenerDisconnected()
+        Log.w("BankNotiService", "Notification listener disconnected, requesting rebind")
+        NotificationListenerKeeper.requestRebind(this)
+    }
 }
