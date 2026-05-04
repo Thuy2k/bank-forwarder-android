@@ -37,6 +37,18 @@ object BankMessageParser {
         return ParsedTransfer(orderId = orderId, amount = amount, normalizedMessage = "$prefix$orderId $amount")
     }
 
+    // VietinBank iPay notification template: "...|TK:...|GD:+10,000VND|ND:...TGS197 ..."
+    private fun parseVietinTemplate(text: String, prefix: String): ParsedTransfer? {
+        val orderId = extractOrderId(text, prefix) ?: return null
+        val m = Regex("""(?i)\bGD\s*:\s*([+-])\s*(\d{1,3}(?:[\.,\s]\d{3})+|\d{4,12})\s*(?:VND|Đ|D)\b""")
+            .find(text) ?: return null
+        val sign = m.groupValues[1]
+        if (sign != "+") return null
+        val amount = parseAmount(m.groupValues[2]) ?: return null
+        if (!isValidIncomingAmount(amount)) return null
+        return ParsedTransfer(orderId = orderId, amount = amount, normalizedMessage = "$prefix$orderId $amount")
+    }
+
     // Generic fallback for other banks: prefer hinted "+amount" patterns, then plain "+...VND".
     private fun parseGenericTemplate(text: String, prefix: String): ParsedTransfer? {
         val orderId = extractOrderId(text, prefix) ?: return null
@@ -65,8 +77,16 @@ object BankMessageParser {
     }
 
     private fun extractOrderId(text: String, prefix: String): String? {
+        val ndContent = Regex("""(?i)\bND\s*:\s*([^\n\r|]+)""")
+            .find(text)
+            ?.groupValues
+            ?.getOrNull(1)
+            ?.trim()
+            .orEmpty()
+        if (ndContent.isBlank()) return null
+
         val orderRegex = Regex("""(?i)\b${Regex.escape(prefix)}\s*(\d{2,10})\b""")
-        val orderId = orderRegex.find(text)?.groupValues?.getOrNull(1)?.trim().orEmpty()
+        val orderId = orderRegex.find(ndContent)?.groupValues?.getOrNull(1)?.trim().orEmpty()
         return orderId.ifBlank { null }
     }
 
@@ -80,10 +100,14 @@ object BankMessageParser {
         val senderLower = sender.lowercase()
         val sourceLower = source.lowercase()
         val isMb = senderLower.contains("mb") || senderLower.contains("mbbank") || (sourceLower == "sms" && text.contains("ND:", true) && text.contains("GD:", true))
+        val isVietin = senderLower.contains("vietin") || senderLower.contains("ipay") || text.contains("VietinBank:", true)
         val isBidv = senderLower.contains("bidv") || senderLower.contains("smartbanking") || text.contains("Thông báo BIDV", true) || text.contains("Số tiền GD", true)
 
         if (isMb) {
             parseMbTemplate(text, prefix)?.let { return it }
+        }
+        if (isVietin) {
+            parseVietinTemplate(text, prefix)?.let { return it }
         }
         if (isBidv) {
             parseBidvTemplate(text, prefix)?.let { return it }
